@@ -3,29 +3,66 @@ using System;
 
 public class Bat : KinematicBody2D
 {
-    private const int FRICTION = 600;
+    private const int ACCELERATION = 300;
+    private const int MAX_SPEED = 50;
+    private const int FRICTION = 200;
+
+    private const int KNOCKBACK_FRICTION = 600;
     private const int KNOCKBACK = 200;
 
-    private Resource deathEffect;
+    private PackedScene deathEffect = (PackedScene)ResourceLoader.Load("res://Misc/DeathEffect.tscn");
 
     private Stats stats;
+    private AnimatedSprite animatedSprite;
+    private PlayerDetectionZone playerDetectionZone;
+
+    private State state;
+
+    private Vector2 velocity = Vector2.Zero;
     private Vector2 knockbackVector = Vector2.Zero;
     
     public override void _Ready()
     {
         this.stats = this.GetNode<Stats>(new NodePath("Stats"));
-
-        this.deathEffect = ResourceLoader.Load("res://Misc/DeathEffect.tscn");
+        this.animatedSprite = this.GetNode<AnimatedSprite>(new NodePath("Sprite"));
+        this.playerDetectionZone = this.GetNode<PlayerDetectionZone>(new NodePath("PlayerDetectionZone"));
     }
 
     public override void _PhysicsProcess(float delta)
     {
-        knockbackVector = knockbackVector.MoveToward(Vector2.Zero, FRICTION * delta);
+        knockbackVector = knockbackVector.MoveToward(Vector2.Zero, KNOCKBACK_FRICTION * delta);
         knockbackVector = MoveAndSlide(knockbackVector);
+
+        switch(this.state)
+        {
+            case State.Idle:
+                velocity = velocity.MoveToward(Vector2.Zero, FRICTION * delta);
+                this.state = this.playerDetectionZone.Player != null ? State.Chase : this.state;
+            break;
+            case State.Wander:
+                this.state = this.playerDetectionZone.Player != null ? State.Chase : this.state;
+            break;
+            case State.Chase:
+                if (this.playerDetectionZone.Player != null)
+                {
+                    this.animatedSprite.FlipH = velocity.x < 0;
+                    var direction = (this.playerDetectionZone.Player.GlobalPosition - this.GlobalPosition).Normalized();
+                    this.velocity = this.velocity.MoveToward(direction * MAX_SPEED, ACCELERATION * delta);
+                }
+                else 
+                {
+                    this.state = State.Idle;
+                }
+            break;
+        }
+
+        velocity = MoveAndSlide(this.velocity);
     }
 
     public void _on_Hurtbox_area_entered(Hitbox area)
     {
+        GD.Print(this.GlobalPosition);
+
         this.stats.HP -= area?.Damage ?? 1;
 
         var kb = (this.GlobalPosition - area.GetParent<Position2D>().GlobalPosition).Normalized();
@@ -36,8 +73,15 @@ public class Bat : KinematicBody2D
     {
         QueueFree();
 
-        var animatedSprite = (Effect)((PackedScene)this.deathEffect).Instance();
+        var animatedSprite = (Effect)this.deathEffect.Instance();
         animatedSprite.GlobalPosition = this.GlobalPosition;
         this.GetParent().AddChild(animatedSprite);
+    }
+
+    private enum State
+    {
+        Idle,
+        Wander,
+        Chase,
     }
 }
