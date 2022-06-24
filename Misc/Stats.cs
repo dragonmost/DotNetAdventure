@@ -4,7 +4,8 @@ using System;
 public class Stats : Node
 {
     [Signal]
-    delegate void ZeroHp(); 
+    public delegate void ZeroHp();
+    public event ZeroHp OnZeroHp;
 
     [Export]
     private int MaxHP = 1;
@@ -20,10 +21,14 @@ public class Stats : Node
 
             if (this.hp <= 0)
             {
+                // triggers both signal and C# event
                 this.EmitSignal("ZeroHp");
+                OnZeroHp?.Invoke();
             }
         }
     }
+
+    public static int Test{get;set;}
 
     public override void _Ready()
     {

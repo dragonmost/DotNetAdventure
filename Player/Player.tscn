@@ -1,8 +1,9 @@
-[gd_scene load_steps=50 format=2]
+[gd_scene load_steps=52 format=2]
 
 [ext_resource path="res://Player/Player.cs" type="Script" id=1]
 [ext_resource path="res://Assets/Action RPG Resources/Player/Player.png" type="Texture" id=2]
 [ext_resource path="res://Misc/Hitbox.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Misc/Hurtbox.tscn" type="PackedScene" id=4]
 
 [sub_resource type="Animation" id=1]
 resource_name = "AttackDown"
@@ -601,8 +602,12 @@ height = 4.0
 [sub_resource type="CapsuleShape2D" id=46]
 height = 12.0
 
+[sub_resource type="CapsuleShape2D" id=47]
+radius = 5.0
+height = 6.0
+
 [node name="Player" type="KinematicBody2D"]
-collision_layer = 2
+collision_layer = 32
 script = ExtResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -655,4 +660,16 @@ collision_mask = 8
 shape = SubResource( 46 )
 disabled = true
 
+[node name="Hurtbox" parent="." instance=ExtResource( 4 )]
+collision_layer = 2
+collision_mask = 0
+InvicibilityTime = 1.5
+
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+position = Vector2( 0, -4 )
+shape = SubResource( 47 )
+
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
+
 [editable path="HitboxPivot/SwordHitbox"]
+[editable path="Hurtbox"]

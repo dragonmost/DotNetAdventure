@@ -8,6 +8,8 @@ public class Player : KinematicBody2D
     private const int MAX_SPEED = 90;
     private const int ROLL_SPEED = (int)(MAX_SPEED * 1.5);
 
+    private PlayerStats stats;
+
     private AnimationPlayer animationPlayer;
     private AnimationTree animationTree;
     private AnimationNodeStateMachinePlayback animationState;
@@ -19,6 +21,10 @@ public class Player : KinematicBody2D
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        stats = GetNode<PlayerStats>("/root/PlayerStats");
+        
+        InitializeEvents();
+
         this.animationPlayer = this.GetNode<AnimationPlayer>(new NodePath("AnimationPlayer"));
         this.animationTree = this.GetNode<AnimationTree>(new NodePath("AnimationTree"));
         this.animationState = (AnimationNodeStateMachinePlayback)this.animationTree.Get("parameters/playback");
@@ -112,6 +118,16 @@ public class Player : KinematicBody2D
         {
             this.state = State.roll;
         }
+    }
+
+    private void InitializeEvents()
+    {
+        this.stats.OnZeroHp += () => GD.Print("DEAD");
+    }
+
+    private void _on_Hurtbox_area_entered(Hitbox area)
+    {
+        this.stats.HP -= area?.Damage ?? 1;
     }
 
     private enum State

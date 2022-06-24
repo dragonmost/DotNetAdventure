@@ -14,6 +14,10 @@ config/name="dotNet Adventure"
 run/main_scene="res://World/World.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+PlayerStats="*res://Player/PlayerStats.tscn"
+
 [display]
 
 window/size/width=512
@@ -93,6 +97,7 @@ roll={
 2d_physics/layer_3="PlayerHitbox"
 2d_physics/layer_4="EntityHurtbox"
 2d_physics/layer_5="EntityHitbox"
+2d_physics/layer_6="Player"
 
 [mono]
 

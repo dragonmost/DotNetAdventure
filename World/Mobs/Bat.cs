@@ -26,6 +26,8 @@ public class Bat : KinematicBody2D
         this.stats = this.GetNode<Stats>(new NodePath("Stats"));
         this.animatedSprite = this.GetNode<AnimatedSprite>(new NodePath("Sprite"));
         this.playerDetectionZone = this.GetNode<PlayerDetectionZone>(new NodePath("PlayerDetectionZone"));
+
+        this.animatedSprite.Play();
     }
 
     public override void _PhysicsProcess(float delta)
@@ -61,8 +63,6 @@ public class Bat : KinematicBody2D
 
     public void _on_Hurtbox_area_entered(Hitbox area)
     {
-        GD.Print(this.GlobalPosition);
-
         this.stats.HP -= area?.Damage ?? 1;
 
         var kb = (this.GlobalPosition - area.GetParent<Position2D>().GlobalPosition).Normalized();
