@@ -14,6 +14,7 @@ public class Bat : KinematicBody2D
 
     private Stats stats;
     private AnimatedSprite animatedSprite;
+    private SoftCollision softCollision;
     private PlayerDetectionZone playerDetectionZone;
 
     private State state;
@@ -25,6 +26,7 @@ public class Bat : KinematicBody2D
     {
         this.stats = this.GetNode<Stats>(new NodePath("Stats"));
         this.animatedSprite = this.GetNode<AnimatedSprite>(new NodePath("Sprite"));
+        this.softCollision = this.GetNode<SoftCollision>(new NodePath("SoftCollision"));
         this.playerDetectionZone = this.GetNode<PlayerDetectionZone>(new NodePath("PlayerDetectionZone"));
 
         this.animatedSprite.Play();
@@ -58,6 +60,7 @@ public class Bat : KinematicBody2D
             break;
         }
 
+        velocity += this.softCollision.GetPushVector * delta * 400;
         velocity = MoveAndSlide(this.velocity);
     }
 
