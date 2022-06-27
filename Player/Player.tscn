@@ -1,9 +1,10 @@
-[gd_scene load_steps=52 format=2]
+[gd_scene load_steps=53 format=2]
 
 [ext_resource path="res://Player/Player.cs" type="Script" id=1]
 [ext_resource path="res://Assets/Action RPG Resources/Player/Player.png" type="Texture" id=2]
 [ext_resource path="res://Misc/Hitbox.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Misc/Hurtbox.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Assets/Action RPG Resources/Shadows/MediumShadow.png" type="Texture" id=5]
 
 [sub_resource type="Animation" id=1]
 resource_name = "AttackDown"
@@ -313,6 +314,18 @@ tracks/1/keys = {
 "method": "OnAnimationFinished"
 } ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("Hurtbox:monitoring")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
 
 [sub_resource type="Animation" id=10]
 resource_name = "RollLeft"
@@ -342,6 +355,18 @@ tracks/1/keys = {
 "args": [  ],
 "method": "OnAnimationFinished"
 } ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Hurtbox:monitoring")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
 }
 
 [sub_resource type="Animation" id=11]
@@ -373,6 +398,18 @@ tracks/1/keys = {
 "method": "OnAnimationFinished"
 } ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("Hurtbox:monitoring")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
 
 [sub_resource type="Animation" id=12]
 resource_name = "RollUp"
@@ -402,6 +439,18 @@ tracks/1/keys = {
 "args": [  ],
 "method": "OnAnimationFinished"
 } ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Hurtbox:monitoring")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
 }
 
 [sub_resource type="Animation" id=13]
@@ -637,11 +686,15 @@ parameters/Idle/blend_position = Vector2( 0, 1 )
 parameters/Roll/blend_position = Vector2( 0, 1 )
 parameters/Run/blend_position = Vector2( 0, 1 )
 
+[node name="Shadow" type="Sprite" parent="."]
+position = Vector2( 0, 1 )
+texture = ExtResource( 5 )
+
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 0, -9 )
 texture = ExtResource( 2 )
 hframes = 60
-frame = 18
+frame = 36
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = 1.5708
