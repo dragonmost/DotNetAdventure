@@ -738,7 +738,6 @@ shape = SubResource( 46 )
 disabled = true
 
 [node name="Hurtbox" parent="." instance=ExtResource( 4 )]
-monitoring = false
 collision_layer = 2
 collision_mask = 0
 InvicibilityTime = 1.5

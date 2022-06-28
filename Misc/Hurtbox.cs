@@ -14,23 +14,25 @@ public class Hurtbox : Area2D
 
     private PackedScene hitEffect = (PackedScene)ResourceLoader.Load("res://Misc/HitEffect.tscn");
     
+    private CollisionShape2D collision;
     private Timer timer;
 
     public override void _Ready()
     {
+        this.collision = this.GetNode<CollisionShape2D>(new NodePath("CollisionShape2D"));
         this.timer = this.GetNode<Timer>(new NodePath("Timer"));
     }
 
     public void _on_Hurtbox_area_entered(Area2D area)
     {
         this.CreateHitEffect();
-        this.SetDeferred("monitoring", false);
+        this.collision.SetDeferred("disabled", true);
         this.timer.Start(InvicibilityTime);
     }
 
     public void _on_Timer_timeout()
     {
-        this.Monitoring = true;
+        this.collision.Disabled = false;
     }
 
     public void CreateHitEffect()

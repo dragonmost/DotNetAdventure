@@ -733,3 +733,7 @@ position = Vector2( 208, 144 )
 position = Vector2( 168, 88 )
 
 [node name="HUD" parent="." instance=ExtResource( 8 )]
+margin_left = 3.0
+margin_top = 3.0
+
+[node name="ClippedCamera" type="ClippedCamera" parent="."]
