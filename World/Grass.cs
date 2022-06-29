@@ -14,7 +14,7 @@ public class Grass : Node2D
         this.QueueFree();
 
         var animatedSprite = (Effect)this.grassEffect.Instance();
-        animatedSprite.GlobalPosition = this.GlobalPosition;
+        animatedSprite.Position = this.Position;
         this.GetParent().AddChild(animatedSprite);
     }
 }

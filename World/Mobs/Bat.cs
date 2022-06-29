@@ -77,7 +77,7 @@ public class Bat : KinematicBody2D
         QueueFree();
 
         var animatedSprite = (Effect)this.deathEffect.Instance();
-        animatedSprite.GlobalPosition = this.GlobalPosition;
+        animatedSprite.GlobalPosition = this.Position;
         this.GetParent().AddChild(animatedSprite);
     }
 
