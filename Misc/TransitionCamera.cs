@@ -28,6 +28,12 @@ public class TransitionCamera : Camera2D
 
     private void UpdateScreen(Vector2 newScreen)
     {
+        Node n = GetNode("/root/World");
+        if(n is World world)
+        {
+            world.ResetRoom();
+        }
+
         this.currentScreen = newScreen;
         this.GlobalPosition = this.currentScreen * this.screenSize + (this.screenSize * 0.5f);
     }

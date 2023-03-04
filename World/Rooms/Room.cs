@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Linq;
 
 public class Room : Node2D
 {
@@ -7,5 +8,10 @@ public class Room : Node2D
 
     public override void _Ready()
     {
+    }
+
+    public void Reset(bool resetActors = false)
+    {
+        
     }
 }

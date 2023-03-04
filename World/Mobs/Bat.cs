@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class Bat : KinematicBody2D
+public class Bat : KinematicBody2D, IMob
 {
     private const int ACCELERATION = 300;
     private const int MAX_SPEED = 50;

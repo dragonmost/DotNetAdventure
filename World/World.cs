@@ -18,6 +18,17 @@ public class World : Node2D
         TransitionCamera camera = this.GetNode<TransitionCamera>("Player/TransitionCamera");
     }
 
+    public void ResetRoom()
+    {
+        // To optimize
+        foreach(Room r in this.rooms ?? Array.Empty<Room>())
+        {
+            // r.Reset();
+        }
+
+        this.rooms?.First().Reset();
+    }
+
     private Room FindCurrentRoom(Player player)
     {
         //TODO: optimize
